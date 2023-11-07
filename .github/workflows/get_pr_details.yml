@@ -50,11 +50,9 @@ jobs:
           api_url="$public_url/startReview"
           github_token="${{ secrets.MY_GITHUB_TOKEN }}"
           curl -X POST -H "Content-Type: application/json" -d '{
-              "repository_owner": "'$repo_owner'",
-              "repository_name": "'$repo_name'",
-              "pr_id": "'$pr_number'",
+              "prId": "'$pr_number'",
               "files": "'$files'",
-              "github_token": "'$github_token'"
+              "githubToken": "'$github_token'"
           }' $api_url
 
         env:
