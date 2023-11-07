@@ -33,6 +33,16 @@ jobs:
           echo "Public URL: $public_url"
           echo "::set-output name=public_url::$public_url"
 
+      - name: Get Modified Files
+        id: modified_files
+        run: |
+          # Capture the names of modified files using git diff
+          files=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.sha }})
+
+          # Output the modified files list
+          echo "Modified Files: $files"
+          echo "::set-output name=modified_files::$files"
+
       - name: Get PR Information
         run: |
           pr_number="${{ github.event.pull_request.number }}"
@@ -40,28 +50,12 @@ jobs:
           pr_branch="${{ github.event.pull_request.head.ref }}"
           repo_owner=$(echo $repo_name | cut -d'/' -f1)
           repo_name=$(echo $repo_name | cut -d'/' -f2)
-          files=$(git diff --name-only $GITHUB_BASE_REF...$GITHUB_SHA)
+          changed_files="${{ steps.modified_files.outputs.modified_files }}"
 
           echo "PR Number: $pr_number"
           echo "Repository Owner: $repo_owner"
           echo "Repository Name: $repo_name"
-          echo "Changed Files: $files"
-          
-          if [[ -z "$files" ]]; then
-            changed_files=""
-          else
-            # Check if there's only one file
-            if [[ $(echo "$files" | wc -l) -eq 1 ]]; then
-              changed_files="$files"
-            else
-              # Convert the list of files to a comma-separated string
-              changed_files=$(echo "$files" | tr '\n' ',')
-              changed_files="${changed_files%,}"  # Remove the trailing comma
-            fi
-          fi
-
-          echo "::set-output name=changed_files::${changed_files}"
-
+          echo "Changed Files: $changed_files"
 
           # Call your API with the PR information and the ngrok public URL
           api_url="$public_url/startReview"
