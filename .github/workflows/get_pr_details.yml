@@ -80,7 +80,7 @@ jobs:
               "prId": "'$pr_number'",
               "files": "'$changed_files'",
               "githubToken": "'$github_token'"
-          }' "'$api_url'"
+          }' "$api_url"
 
         env:
           GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
