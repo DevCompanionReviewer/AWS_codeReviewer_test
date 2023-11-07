@@ -40,7 +40,7 @@ jobs:
           pr_branch="${{ github.event.pull_request.head.ref }}"
           repo_owner=$(echo $repo_name | cut -d'/' -f1)
           repo_name=$(echo $repo_name | cut -d'/' -f2)
-          files=$(git diff --name-only "origin/${{ github.base_ref }}"...${{ github.sha }})
+          files=$(git diff --name-only $GITHUB_BASE_REF...$GITHUB_SHA)
 
           echo "PR Number: $pr_number"
           echo "Repository Owner: $repo_owner"
