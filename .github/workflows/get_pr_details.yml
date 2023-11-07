@@ -40,10 +40,6 @@ jobs:
           fi
           
           echo "Files: $changed_files"
-          
-          sleep 5
-          changed_files="${{ steps.modified_files.outputs.modified_files }}"
-          echo "Files Name: $changed_files"
 
           # Call your API with the PR information and the ngrok public URL
           api_url="https://abe2-103-215-237-139.ngrok-free.app/startReview"
