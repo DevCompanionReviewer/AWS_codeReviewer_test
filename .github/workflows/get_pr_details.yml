@@ -33,16 +33,6 @@ jobs:
           echo "Public URL: $public_url"
           echo "::set-output name=public_url::$public_url"
 
-      - name: Get Modified Files
-        id: modified_files
-        run: |
-          # Capture the names of modified files using git diff
-          files=$(git --no-pager diff --name-only --diff-filter=ACMRT ${{github.event.pull_request.base.sha}} ${{github.event.pull_request.head.sha}})
-
-          # Output the modified files list
-          echo "Modified Files: $files"
-          echo "::set-output name=modified_files::$files"
-
       - name: Get PR Information
         run: |
           pr_number="${{ github.event.pull_request.number }}"
@@ -55,6 +45,38 @@ jobs:
           echo "PR Number: $pr_number"
           echo "Repository Owner: $repo_owner"
           echo "Repository Name: $repo_name"
+          echo "Changed Files: $changed_files"
+
+      - name: Get Modified Files
+        id: modified_files
+        run: |
+          # Capture the names of modified files using git diff
+          files=$(git diff --name-only "origin/${{github.base_ref}}"...origin/${pr_branch}})
+
+          # Output the modified files list
+          echo "Modified Files: $files"
+          echo "::set-output name=modified_files::$files"
+          
+          if [[ -z "$files" ]]; then
+            changed_files=""
+          else
+            # Check if there's only one file
+            if [[ $(echo "$files" | wc -l) -eq 1 ]]; then
+              changed_files="$files"
+            else
+              # Convert the list of files to a comma-separated string
+              changed_files=$(echo "$files" | tr '\n' ',')
+              changed_files="${changed_files%,}"  # Remove the trailing comma
+            fi
+          fi
+
+          echo "::set-output name=changed_files::${changed_files}"
+
+      - name: Output Changed Files
+        run: |
+          changed_files="${{ steps.changed_files.outputs.changed_files }}"
+
+          # Print the comma-separated list of changed file names
           echo "Changed Files: $changed_files"
 
           # Call your API with the PR information and the ngrok public URL
