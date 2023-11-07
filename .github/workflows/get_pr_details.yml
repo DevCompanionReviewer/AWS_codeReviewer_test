@@ -37,7 +37,7 @@ jobs:
         id: modified_files
         run: |
           # Capture the names of modified files using git diff
-          files=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.sha }})
+          files=$(git --no-pager diff --name-only --diff-filter=ACMRT ${{github.event.pull_request.base.sha}} ${{github.event.pull_request.head.sha}})
 
           # Output the modified files list
           echo "Modified Files: $files"
