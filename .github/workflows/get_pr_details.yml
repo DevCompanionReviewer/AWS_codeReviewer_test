@@ -45,7 +45,7 @@ jobs:
           api_url="https://abe2-103-215-237-139.ngrok-free.app/startReview"
           github_token="${{ secrets.MY_GITHUB_TOKEN }}"
           curl -X POST -H "Content-Type: application/json" -d "{
-              \"prId\": \"${pr_number}\",
-              \"files\": \"${changed_files}\",
-              \"githubToken\": \"${github_token}\"
+              "prId": "${pr_number}",
+              "files": "${changed_files}",
+              "githubToken": "${github_token}"
           }" "$api_url"
