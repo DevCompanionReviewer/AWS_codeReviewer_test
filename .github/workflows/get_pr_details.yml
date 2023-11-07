@@ -40,10 +40,9 @@ jobs:
           else
             # Convert the list of files to a comma-separated string
             changed_files=$(echo "$files" | tr '\n' ',' | sed 's/,$//')
-          fi        
+          fi          
           sleep 5
           changed_files="${{ steps.modified_files.outputs.modified_files }}"
-          sleep 5
           echo "files Name: $changed_files"
 
           # Call your API with the PR information and the ngrok public URL
