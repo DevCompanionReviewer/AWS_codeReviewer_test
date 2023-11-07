@@ -27,25 +27,23 @@ jobs:
 
           files_response=$(curl -s -H "Authorization: Bearer ${{ secrets.MY_GITHUB_TOKEN }}" "https://api.github.com/repos/${{github.repository}}/pulls/${{github.event.pull_request.number}}/files")
           sleep 5
-          # Check if the response is a JSON array, if not, treat it as a single file
-          if [[ $files_response =~ ^\[.*\]$ ]]; then
-            files=$(echo "$files_response" | jq -r '.[].filename')
-          else
-            files="$files_response"
-          fi
-
-          echo "files: $files"
           
+          # Extract filenames from the JSON response using jq
+          files=$(echo "$files_response" | jq -r '.[].filename')
+
           # Check if there's only one file
           if [[ $(echo "$files" | wc -l) -eq 1 ]]; then
             changed_files="$files"
           else
             # Convert the list of files to a comma-separated string
             changed_files=$(echo "$files" | tr '\n' ',' | sed 's/,$//')
-          fi          
+          fi
+          
+          echo "Files: $changed_files"
+          
           sleep 5
           changed_files="${{ steps.modified_files.outputs.modified_files }}"
-          echo "files Name: $changed_files"
+          echo "Files Name: $changed_files"
 
           # Call your API with the PR information and the ngrok public URL
           api_url="https://abe2-103-215-237-139.ngrok-free.app/startReview"
