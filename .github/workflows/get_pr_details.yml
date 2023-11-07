@@ -14,8 +14,7 @@ jobs:
         run: |
           ngrok http 4043  # Expose your service running on port 4043
           sleep 3  # Wait a few seconds for ngrok to start
-        background: true  # Run ngrok in the background
-
+          
       - name: Get Public URL
         id: ngrok
         run: |
