@@ -39,19 +39,22 @@ jobs:
           repo_name="${{ github.repository }}"
           repo_owner=$(echo $repo_name | cut -d'/' -f1)
           repo_name=$(echo $repo_name | cut -d'/' -f2)
-          files=$(git diff --name-only $pr_number)
+          files=$(git diff --name-only "refs/pull/$pr_number/head")
 
           echo "PR Number: $pr_number"
           echo "Repository Owner: $repo_owner"
           echo "Repository Name: $repo_name"
           echo "Changed Files: $files"
+          
+          files_csv=$(echo "$files" | tr '\n' ',' | sed 's/,$//')
+
 
           # Call your API with the PR information and the ngrok public URL
           api_url="$public_url/startReview"
           github_token="${{ secrets.MY_GITHUB_TOKEN }}"
           curl -X POST -H "Content-Type: application/json" -d '{
               "prId": "'$pr_number'",
-              "files": "'$files'",
+              "files": "'$files_csv'",
               "githubToken": "'$github_token'"
           }' $api_url
 
