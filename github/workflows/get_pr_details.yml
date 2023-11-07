@@ -28,7 +28,7 @@ jobs:
 
           # Call your API with the PR information and GitHub token
           api_url="http://localhost:4043/startReview"
-          github_token="${{ secrets.GITHUB_TOKEN }}"
+          github_token="${{ secrets.MY_GITHUB_TOKEN }}"
           curl -X POST -H "Content-Type: application/json" -d '{
               "prId": "'$pr_number'",
               "files": "'$files'",
@@ -36,4 +36,4 @@ jobs:
           }' $api_url
 
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
