@@ -19,7 +19,7 @@ jobs:
           repo_full_name="${{ github.repository }}"
           pr_branch="${{ github.event.pull_request.head.ref }}"
           repo_owner=$(echo $repo_full_name | cut -d'/' -f1)
-          repo_name=$(echo $repo_full_name | cut-d'/' -f2)
+          repo_name=$(echo $repo_full_name | cut -d'/' -f2)
           changed_files="${{ steps.modified_files.outputs.modified_files }}"
 
           echo "PR Number: $pr_number"
