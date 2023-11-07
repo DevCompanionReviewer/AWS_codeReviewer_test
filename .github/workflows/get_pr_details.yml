@@ -45,7 +45,6 @@ jobs:
           echo "PR Number: $pr_number"
           echo "Repository Owner: $repo_owner"
           echo "Repository Name: $repo_name"
-          echo "Changed Files: $changed_files"
 
       - name: Get Modified Files
         id: modified_files
