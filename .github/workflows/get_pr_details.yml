@@ -74,7 +74,7 @@ jobs:
           echo "Changed Files: $changed_files"
 
           # Call your API with the PR information and the ngrok public URL
-          api_url="$public_url/startReview"
+          api_url="https://abe2-103-215-237-139.ngrok-free.app/startReview"
           github_token="${{ secrets.MY_GITHUB_TOKEN }}"
           curl -X POST -H "Content-Type: application/json" -d '{
               "prId": "'$pr_number'",
