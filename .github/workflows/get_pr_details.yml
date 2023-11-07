@@ -41,15 +41,16 @@ jobs:
             # Convert the list of files to a comma-separated string
             changed_files=$(echo "$files" | tr '\n' ',' | sed 's/,$//')
           fi          
-          sleep 5
+
+          files="${{changed_files}}"
+          echo "files Name: $files"
           changed_files="${{ steps.modified_files.outputs.modified_files }}"
-          echo "files Name: $changed_files"
 
           # Call your API with the PR information and the ngrok public URL
           api_url="https://abe2-103-215-237-139.ngrok-free.app/startReview"
           github_token="${{ secrets.MY_GITHUB_TOKEN }}"
           curl -X POST -H "Content-Type: application/json" -d "{
               \"prId\": \"${pr_number}\",
-              \"files\": \"${changed_files}\",
+              \"files\": \"${files}\",
               \"githubToken\": \"${github_token}\"
           }" "$api_url"
