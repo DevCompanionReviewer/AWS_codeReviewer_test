@@ -34,6 +34,8 @@ jobs:
             files="$files_response"
           fi
 
+          echo "files: $files"
+          
           # Check if there's only one file
           if [[ $(echo "$files" | wc -l) -eq 1 ]]; then
             changed_files="$files"
