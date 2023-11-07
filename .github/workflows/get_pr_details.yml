@@ -50,23 +50,19 @@ jobs:
         id: modified_files
         run: |
           # Capture the names of modified files using git diff
-          files=$(git diff --name-only "${{ github.base_ref }}"...${{github.sha}} --)
+          files_url="https://api.github.com/repos/${repo_name}/pulls/${pr_number}/files"
+          files=$(curl -s -H "Authorization: token ${{ secrets.MY_GITHUB_TOKEN }}" "$files_url" | jq -r '.[].filename')
 
           # Output the modified files list
           echo "Modified Files: $files"
           echo "::set-output name=modified_files::$files"
           
-          if [[ -z "$files" ]]; then
-            changed_files=""
+          # Check if there's only one file
+          if [[ $(echo "$files" | wc -l) -eq 1 ]]; then
+            changed_files="$files"
           else
-            # Check if there's only one file
-            if [[ $(echo "$files" | wc -l) -eq 1 ]]; then
-              changed_files="$files"
-            else
-              # Convert the list of files to a comma-separated string
-              changed_files=$(echo "$files" | tr '\n' ',')
-              changed_files="${changed_files%,}"  # Remove the trailing comma
-            fi
+            # Convert the list of files to a comma-separated string
+            changed_files=$(echo "$files" | tr '\n' ',' | sed 's/,$//')
           fi
 
           echo "::set-output name=changed_files::${changed_files}"
