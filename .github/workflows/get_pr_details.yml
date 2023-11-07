@@ -1,0 +1,49 @@
+name: Notify API on PR Open
+
+on:
+  pull_request:
+    types:
+      - opened
+
+jobs:
+  notify_api:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Start ngrok
+        run: |
+          ngrok http 4043  # Expose your service running on port 4043
+          sleep 3  # Wait a few seconds for ngrok to start
+        background: true  # Run ngrok in the background
+
+      - name: Get Public URL
+        id: ngrok
+        run: |
+          public_url=$(curl -s http://127.0.0.1:4040/api/tunnels | jq -r '.tunnels[0].public_url')
+          echo "Public URL: $public_url"
+          echo "::set-output name=public_url::$public_url"
+
+      - name: Get PR Information
+        run: |
+          pr_number="${{ github.event.pull_request.number }}"
+          repo_name="${{ github.repository }}"
+          repo_owner=$(echo $repo_name | cut -d'/' -f1)
+          repo_name=$(echo $repo_name | cut-d'/' -f2)
+          files=$(git diff --name-only $pr_number)
+
+          echo "PR Number: $pr_number"
+          echo "Repository Owner: $repo_owner"
+          echo "Repository Name: $repo_name"
+          echo "Changed Files: $files"
+
+          # Call your API with the PR information and the ngrok public URL
+          api_url="$public_url/startReview"
+          github_token="${{ secrets.MY_GITHUB_TOKEN }}"
+          curl -X POST -H "Content-Type: application/json" -d '{
+              "prId": "'$pr_number'",
+              "files": "'$files'",
+              "githubToken": "'$github_token'"
+          }' $api_url
+
+        env:
+          GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
