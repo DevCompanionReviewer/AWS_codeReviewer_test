@@ -50,7 +50,7 @@ jobs:
         id: modified_files
         run: |
           # Capture the names of modified files using git diff
-          files=$(git diff --name-only "origin/${{github.base_ref}}".."origin/${{github.event.pull_request.head.ref}}")
+          files=$(git diff --name-only "origin/${{github.base_ref}}"..."origin/${{github.event.pull_request.head.ref}}")
 
           # Output the modified files list
           echo "Modified Files: $files"
