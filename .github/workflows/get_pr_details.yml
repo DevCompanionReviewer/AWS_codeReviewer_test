@@ -28,7 +28,7 @@ jobs:
           files_response=$(curl -s -H "Authorization: Bearer ${{ secrets.MY_GITHUB_TOKEN }}" "https://api.github.com/repos/$repo_name/pulls/$pr_number/files")
 
           # Extract filenames from the JSON response using jq
-          files=$(echo "$files_response" | jq -r '.[] | .filename')
+          files=$(echo "$files_response" | jq -r '.[].filename')
 
           # Check if there's only one file
           if [[ $(echo "$files" | wc -l) -eq 1 ]]; then
