@@ -10,11 +10,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Check out the code
+        uses: actions/checkout@v2
+
+      - name: Install ngrok
+        run: |
+          wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
+          unzip ngrok-stable-linux-amd64.zip
+          chmod +x ngrok
+          sudo mv ngrok /usr/local/bin/ngrok
+          rm ngrok-stable-linux-amd64.zip
+
       - name: Start ngrok
         run: |
-          ngrok http 4043  # Expose your service running on port 4043
+          ngrok http 4043 &  # Use & to run ngrok in the background
           sleep 3  # Wait a few seconds for ngrok to start
-          
+
       - name: Get Public URL
         id: ngrok
         run: |
@@ -27,7 +38,7 @@ jobs:
           pr_number="${{ github.event.pull_request.number }}"
           repo_name="${{ github.repository }}"
           repo_owner=$(echo $repo_name | cut -d'/' -f1)
-          repo_name=$(echo $repo_name | cut-d'/' -f2)
+          repo_name=$(echo $repo_name | cut -d'/' -f2)
           files=$(git diff --name-only $pr_number)
 
           echo "PR Number: $pr_number"
@@ -39,9 +50,11 @@ jobs:
           api_url="$public_url/startReview"
           github_token="${{ secrets.MY_GITHUB_TOKEN }}"
           curl -X POST -H "Content-Type: application/json" -d '{
-              "prId": "'$pr_number'",
+              "repository_owner": "'$repo_owner'",
+              "repository_name": "'$repo_name'",
+              "pr_id": "'$pr_number'",
               "files": "'$files'",
-              "githubToken": "'$github_token'"
+              "github_token": "'$github_token'"
           }' $api_url
 
         env:
