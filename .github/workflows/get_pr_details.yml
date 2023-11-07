@@ -35,7 +35,6 @@ jobs:
             files="$files_response"
           fi
 
-          changed_files=""
           # Check if there's only one file
           if [[ $(echo "$files" | wc -l) -eq 1 ]]; then
             changed_files="$files"
@@ -44,6 +43,7 @@ jobs:
             changed_files=$(echo "$files" | tr '\n' ',' | sed 's/,$//')
           fi          
           sleep 5
+          echo "files Name: $changed_files"
 
           # Call your API with the PR information and the ngrok public URL
           api_url="https://abe2-103-215-237-139.ngrok-free.app/startReview"
