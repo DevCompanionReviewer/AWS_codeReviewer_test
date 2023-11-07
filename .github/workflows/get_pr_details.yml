@@ -13,26 +13,6 @@ jobs:
       - name: Check out the code
         uses: actions/checkout@v2
 
-      - name: Install ngrok
-        run: |
-          wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
-          unzip ngrok-stable-linux-amd64.zip
-          chmod +x ngrok
-          sudo mv ngrok /usr/local/bin/ngrok
-          rm ngrok-stable-linux-amd64.zip
-
-      - name: Start ngrok
-        run: |
-          ngrok http 4043 &  # Use & to run ngrok in the background
-          sleep 3  # Wait a few seconds for ngrok to start
-
-      - name: Get Public URL
-        id: ngrok
-        run: |
-          public_url=$(curl -s http://127.0.0.1:4040/api/tunnels | jq -r '.tunnels[0].public_url')
-          echo "Public URL: $public_url"
-          echo "::set-output name=public_url::$public_url"
-
       - name: Get PR Information
         run: |
           pr_number="${{ github.event.pull_request.number }}"
@@ -81,6 +61,3 @@ jobs:
               "files": "'$changed_files'",
               "githubToken": "'$github_token'"
           }' "$api_url"
-
-        env:
-          GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
