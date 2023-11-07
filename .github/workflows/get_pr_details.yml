@@ -48,19 +48,11 @@ jobs:
 
           echo "::set-output name=changed_files::${changed_files}"
 
-      - name: Output Changed Files
-        run: |
-          # Print the comma-separated list of changed file names
-          echo "Changed Files: $changed_files"
-          echo "prId: $pr_number"
-          echo "files: $changed_files"
-          echo "github_token: ${{ secrets.MY_GITHUB_TOKEN }}"
-
           # Call your API with the PR information and the ngrok public URL
           api_url="https://abe2-103-215-237-139.ngrok-free.app/startReview"
           github_token="${{ secrets.MY_GITHUB_TOKEN }}"
           curl -X POST -H "Content-Type: application/json" -d '{
-              "prId": "$pr_number",
+              "prId": "${{ github.event.pull_request.number }}",
               "files": "$changed_files",
               "githubToken": "$github_token"
           }' "$api_url"
