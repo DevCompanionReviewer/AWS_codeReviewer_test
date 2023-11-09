@@ -3,8 +3,6 @@ name: Notify API on PR Open
 
 
 
-      - name: Check out the code
-        uses: actions/checkout@v2
 
       - name: Get PR Information
         run: |
