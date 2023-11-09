@@ -1,1 +1,1 @@
-print("AWS")
+print("JSR")
