@@ -73,6 +73,7 @@ jobs:
                           \"prId\": \"${pr_number}\",
                           \"files\": \"${changed_files}\",
                           \"repoName\": \"${repo_name}\",
+                          \"repoOwner\": \"${repo_owner}\",
                           \"githubToken\": \"${github_token}\"
                       }" "$api_url"
                     else
