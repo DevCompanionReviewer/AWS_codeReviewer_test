@@ -64,7 +64,7 @@ jobs:
 
 
 
-                    if [ "$base_branch" = "main" ] || [ "$base_branch" = "master" ]; 
+                    if [ ("$base_branch" == "main") -o ("$base_branch" == "master") ]; 
 
                     then
                       api_url="https://b872-2405-201-5c00-d0d0-daee-1107-5190-7fd4.ngrok-free.app/startReview"
