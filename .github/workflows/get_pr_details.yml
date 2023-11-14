@@ -44,23 +44,11 @@ jobs:
           echo "Files: $changed_files"
           sleep 5
      
-#          # Call your API with the PR information and the ngrok public URL
-#          api_url="https://b872-2405-201-5c00-d0d0-daee-1107-5190-7fd4.ngrok-free.app/startReview"
-#          github_token="${{ secrets.MY_GITHUB_TOKEN }}"
-#          curl -X POST -H "Content-Type: application/json" -d "{
-#              \"prId\": \"${pr_number}\",
-#              \"files\": \"${changed_files}\",
-#              \"githubToken\": \"${github_token}\"
-#          }" "$api_url"
-
-          if [ "$base_branch" == "main" ]; then
-            api_url="https://b872-2405-201-5c00-d0d0-daee-1107-5190-7fd4.ngrok-free.app/startReview"
-            github_token="${{ secrets.MY_GITHUB_TOKEN }}"
-            curl -X POST -H "Content-Type: application/json" -d "{
-                \"prId\": \"${pr_number}\",
-                \"files\": \"${changed_files}\",
-                \"githubToken\": \"${github_token}\"
-            }" "$api_url"
-          else
-            echo "PR is not raised to the master branch. Skipping the review."
-          fi
+          # Call your API with the PR information and the ngrok public URL
+          api_url="https://b872-2405-201-5c00-d0d0-daee-1107-5190-7fd4.ngrok-free.app/startReview"
+          github_token="${{ secrets.MY_GITHUB_TOKEN }}"
+          curl -X POST -H "Content-Type: application/json" -d "{
+              \"prId\": \"${pr_number}\",
+              \"files\": \"${changed_files}\",
+              \"githubToken\": \"${github_token}\"
+          }" "$api_url"
