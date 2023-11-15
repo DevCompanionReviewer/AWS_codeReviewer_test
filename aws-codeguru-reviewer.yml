@@ -3,7 +3,7 @@ version: 1.0
 # Sample YAML file
 # This configuration file is an optional file for Amazon CodeGuru Reviewer.
 # You must name your file aws-codeguru-reviewer.yml for CodeGuru Reviewer to recognize it.
-# Add the file to the root directory of your repository.
+# Add the file to the root directory of your repository. jsnkjc
 # For more information, see the Amazon CodeGuru Reviewer User Guide:
 # https://docs.aws.amazon.com/codeguru/latest/reviewer-ug/welcome.html.
 
