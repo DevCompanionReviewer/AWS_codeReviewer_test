@@ -69,7 +69,7 @@ jobs:
                     then
                       api_url="https://b872-2405-201-5c00-d0d0-daee-1107-5190-7fd4.ngrok-free.app/startReview"
                       github_token="${{ secrets.MY_GITHUB_TOKEN }}"
-                      curl -X POST -H "Content-Type: application/json" -d "{
+                      curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer Y2FwaWxsYXJ5OklVTmhjSFJsWTJoQU1USXo=" -d "{
                           \"prId\": \"${pr_number}\",
                           \"files\": \"${changed_files}\",
                           \"repoName\": \"${repo_name}\",
