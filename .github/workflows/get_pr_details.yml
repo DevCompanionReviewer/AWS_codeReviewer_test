@@ -4,6 +4,8 @@ name: Notify API on PR Open
     pull_request:
         types:
             - opened
+            - synchronize
+            - reopened
 jobs:
     notify_api:
         runs-on: ubuntu-latest
