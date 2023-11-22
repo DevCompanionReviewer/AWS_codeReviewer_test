@@ -44,7 +44,7 @@ jobs:
           fi
           
           
-          echo "changed_files=$changed_files" 
+          echo "changed_files=$changed_files" >> $GITHUB_ENV
           echo "Files: $changed_files" 
 
       - name: Call the WrapperService
