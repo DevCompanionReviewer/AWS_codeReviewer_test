@@ -8,17 +8,18 @@ jobs:
   notify_api:
     runs-on: ubuntu-latest
 
-    env:
-      PR_NUMBER: ${{ github.event.pull_request.number }}
-      REPO_FULL_NAME: ${{ github.repository }}
-      PR_BRANCH: ${{ github.event.pull_request.head.ref }}
-      REPO_OWNER: ${{ github.repository_owner }}
-      REPO_NAME: ${{ github.repository_name }}
-      BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
-
     steps:
       - name: Check out the code
         uses: actions/checkout@v2
+
+      - name: Set environment variables
+        run: |
+          echo "PR_NUMBER=${{ github.event.pull_request.number }}" >> $GITHUB_ENV
+          echo "REPO_FULL_NAME=${{ github.repository }}" >> $GITHUB_ENV
+          echo "PR_BRANCH=${{ github.event.pull_request.head.ref }}" >> $GITHUB_ENV
+          echo "REPO_OWNER=$(echo $repo_full_name | cut -d'/' -f1)" >> $GITHUB_ENV
+          echo "REPO_NAME=$(echo $repo_full_name | cut -d'/' -f2)" >> $GITHUB_ENV
+          echo "BASE_BRANCH=${{ github.event.pull_request.base.ref }}" >> $GITHUB_ENV
 
       - name: Get PR Information
         run: |
@@ -27,7 +28,7 @@ jobs:
           echo "Repository Name: $REPO_NAME"
           echo "Base branch Name: $BASE_BRANCH"
 
-      - name: Get the files
+      - name: Check parameters
         run: |
           files_response=$(curl -s -H "Authorization: Bearer ${{ secrets.MY_GITHUB_TOKEN }}" "https://api.github.com/repos/${REPO_FULL_NAME}/pulls/${PR_NUMBER}/files")
 
@@ -42,7 +43,7 @@ jobs:
             changed_files=$(echo "$files" | tr '\n' ',' | sed 's/,$//')
           fi
 
-          echo "Files: $changed_files"
+          echo "Files: $changed_files" >> $GITHUB_ENV
 
       - name: Call the WrapperService
         run: |
