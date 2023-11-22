@@ -17,8 +17,8 @@ jobs:
           echo "PR_NUMBER=${{ github.event.pull_request.number }}" >> $GITHUB_ENV
           echo "REPO_FULL_NAME=${{ github.repository }}" >> $GITHUB_ENV
           echo "PR_BRANCH=${{ github.event.pull_request.head.ref }}" >> $GITHUB_ENV
-          echo "REPO_OWNER=$(echo $REPO_FULL_NAME | cut -d'/' -f1)" >> $GITHUB_ENV
-          echo "REPO_NAME=$(echo $REPO_FULL_NAME | cut -d'/' -f2)" >> $GITHUB_ENV
+          echo "REPO_OWNER=${{ github.repository_owner }}" >> $GITHUB_ENV
+          echo "REPO_NAME=${{ github.event.repository.name }}" >> $GITHUB_ENV
           echo "BASE_BRANCH=${{ github.event.pull_request.base.ref }}" >> $GITHUB_ENV
 
       - name: Get PR Information
@@ -42,12 +42,15 @@ jobs:
             # Convert the list of files to a comma-separated string
             changed_files=$(echo "$files" | tr '\n' ',' | sed 's/,$//')
           fi
-
+          
+          
+          echo "changed_files=${{ changed_files }}" 
           echo "Files: $changed_files" 
 
       - name: Call the WrapperService
         run: |
           echo "Base branch Name: $BASE_BRANCH"
+          echo "changed_files: $changed_files"
           if [ "$BASE_BRANCH" == "main" ] || [ "$BASE_BRANCH" == "master" ]; then
             api_url="https://devcompanion.cc-tooling.devtools.capillarytech.com/startReview"
             github_token="${{ secrets.MY_GITHUB_TOKEN }}"
