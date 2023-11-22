@@ -43,6 +43,8 @@ jobs:
             changed_files=$(echo "$files" | tr '\n' ',' | sed 's/,$//')
           fi
           
+          
+          echo "changed_files=$changed_files" 
           echo "Files: $changed_files" 
 
       - name: Call the WrapperService
