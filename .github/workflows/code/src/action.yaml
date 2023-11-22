@@ -1,0 +1,47 @@
+name: "PR ChatGPT Review"
+description: "Automatically generate GitHub PR review comments by sending contents of changed files to OpenAI ChatGPT engine."
+inputs:
+  openai_api_key:
+    description: "OpenAI API Key"
+
+    required: true
+  repo_name:
+    description: "Repository Name"
+    required: true
+  repo_owner:
+    description: "Repository owner"
+    required: true
+  files:
+    description: "Comma separated list of files to target for review"
+    required: false
+    default: "*"
+  openai_model:
+    description: "GPT-3 model name."
+    required: false
+    default: "gpt-3.5-turbo"
+  openai_temperature:
+    description: "Sampling temperature, [0, 1]. Higher values mean the model will take more risks when generating answers."
+    required: false
+    default: "0.5"
+  openai_max_tokens:
+    description: "The maximum number of tokens to generate in the completion."
+    required: false
+    default: "2048"
+  logging:
+    description: "The level to log at. One of [debug, info, warning, error]"
+    required: false
+    default: "warning"
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  args:
+    - ${{ inputs.openai_api_key }}
+    - ${{ inputs.github_token }}
+    - ${{ inputs.github_pr_id }}
+    - ${{ inputs.repo_name }}
+    - ${{ inputs.repo_owner }}
+    - ${{ inputs.files }}
+    - ${{ inputs.openai_model }}
+    - ${{ inputs.openai_temperature }}
+    - ${{ inputs.openai_max_tokens }}
+    - ${{ inputs.logging }}
