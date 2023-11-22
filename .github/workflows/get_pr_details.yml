@@ -64,11 +64,10 @@ jobs:
                     echo "Files: $changed_files"
 
             -
-                name: Call the startReview
+                name: Call the WrapperService
                 run: >
-
+                    echo "Base branch Name: $base_branch"
                     if [ "$base_branch" == "main" ] || [ "$base_branch" == "master" ];
-
                     then
                       api_url="https://devcompanion.cc-tooling.devtools.capillarytech.com/startReview"
                       github_token="${{ secrets.MY_GITHUB_TOKEN }}"
