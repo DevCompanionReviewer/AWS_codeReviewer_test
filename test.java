@@ -20,8 +20,7 @@ public class SecureInputExample {
         String input = scanner.nextLine();
 
         // Close the scanner to prevent resource leaks
-        scanner.close();
-
+        // Move the scanner.close() method call to the end of the main() method
         return input;
     }
 
