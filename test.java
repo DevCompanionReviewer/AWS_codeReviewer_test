@@ -19,8 +19,7 @@ public class SecureInputExample {
         // Use nextLine() instead of next() to capture entire input line
         String input = scanner.nextLine();
 
-        // Close the scanner to prevent resource leaks
-        scanner.close();
+        // Do not close the scanner to avoid closing System.in
 
         return input;
     }
