@@ -19,18 +19,22 @@ public class SecureJavaCode {
 
             // Print a welcome message
             System.out.println("Hello, " + name + "! Welcome to secure Java coding.");
+        } catch (InputMismatchException e) {
+            // Handle input mismatch exception
+            System.err.println("Invalid input format. Please enter a valid value.");
+            LOGGER.warning("InputMismatchException occurred: " + e.getMessage());
+        } catch (IOException e) {
+            // Handle IO exception
+            System.err.println("An error occurred while reading input. Please try again.");
+            LOGGER.severe("IOException occurred: " + e.getMessage());
         } catch (Exception e) {
-            // Handle exceptions, log a generic error message, and log the detailed error information securely
-            System.err.println("An error occurred. Please contact the administrator for assistance.");
+            // Handle other exceptions
+            System.err.println("An unexpected error occurred. Please contact the administrator for assistance.");
             LOGGER.severe("Exception occurred: " + e.getMessage());
         } finally {
-            // Close the scanner to avoid resource leaks
+            // Close the scanner in a finally block to avoid resource leaks
             if (scanner != null) {
-                if (closeScanner(scanner)) {
-                    System.out.println("Scanner closed successfully.");
-                } else {
-                    System.err.println("Error closing the scanner.");
-                }
+                closeScanner(scanner);
             }
         }
     }
@@ -39,17 +43,15 @@ public class SecureJavaCode {
     private static boolean isValidInput(String input) {
         // Implement your validation logic, e.g., using regular expressions
         // This is a simple example; adjust based on your specific requirements
-        return input.matches("[a-zA-Z]+");
+        return input.matches("[a-zA-Z0-9]+");
     }
 
-    // Close the scanner and check for errors
-    private static boolean closeScanner(Scanner scanner) {
+    // Close the scanner and handle exceptions
+    private static void closeScanner(Scanner scanner) {
         try {
             scanner.close();
-            return true;
         } catch (Exception e) {
             LOGGER.warning("Error closing scanner: " + e.getMessage());
-            return false;
         }
     }
 }
