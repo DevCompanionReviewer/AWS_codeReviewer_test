@@ -1,28 +1,34 @@
-public class SecureCodeExample {
+import java.util.Scanner;
+
+public class SecureInputExample {
 
     public static void main(String[] args) {
-        // Declare and initialize variables securely
-        String username = "user123";
-        char[] password = "securePassword123".toCharArray();
+        // Use a secure method for user input
+        String userInput = getUserInput("Enter your name: ");
 
-        // Use a secure method for password hashing
-        String hashedPassword = hashPassword(password);
-
-        // Print the hashed password
-        System.out.println("Hashed Password: " + hashedPassword);
+        // Print the sanitized user input
+        System.out.println("Hello, " + sanitizeInput(userInput) + "!");
     }
 
-    // A secure method for password hashing
-    private static String hashPassword(char[] password) {
-        // Use a strong hashing algorithm, such as BCrypt
-        // In a real-world scenario, use a dedicated library for password hashing
-        // BCrypt is just an example; in practice, use a proven library like bcrypt or Argon2
-        String hashedPassword = BCrypt.hashpw(new String(password), BCrypt.gensalt());
+    // A secure method for getting user input
+    private static String getUserInput(String prompt) {
+        Scanner scanner = new Scanner(System.in);
 
-        // Clear the original password from memory after hashing
-        // This helps minimize the risk of exposing the password
-        Arrays.fill(password, '\0');
+        System.out.print(prompt);
 
-        return hashedPassword;
+        // Use nextLine() instead of next() to capture entire input line
+        String input = scanner.nextLine();
+
+        // Close the scanner to prevent resource leaks
+        scanner.close();
+
+        return input;
+    }
+
+    // A secure method for sanitizing user input
+    private static String sanitizeInput(String input) {
+        // Use a regex or other appropriate method to sanitize input
+        // In this example, only alphanumeric characters are allowed
+        return input.replaceAll("[^a-zA-Z0-9]", "");
     }
 }
