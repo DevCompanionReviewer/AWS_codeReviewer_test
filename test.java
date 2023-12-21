@@ -1,33 +1,18 @@
 import java.util.Scanner;
 
-public class SecureInputExample {
-
+public class SecureJavaCode {
     public static void main(String[] args) {
-        // Use a secure method for user input
-        String userInput = getUserInput("Enter your name: ");
-
-        // Print the sanitized user input
-        System.out.println("Hello, " + sanitizeInput(userInput) + "!");
-    }
-
-    // A secure method for getting user input
-    private static String getUserInput(String prompt) {
+        // Use Scanner to get user input
         Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter your name: ");
 
-        System.out.print(prompt);
+        // Read user input
+        String name = scanner.nextLine();
 
-        // Use nextLine() instead of next() to capture entire input line
-        String input = scanner.nextLine();
+        // Print a welcome message
+        System.out.println("Hello, " + name + "! Welcome to secure Java coding.");
 
-        // Close the scanner to prevent resource leaks
-        // Move the scanner.close() method call to the end of the main() method
-        return input;
-    }
-
-    // A secure method for sanitizing user input
-    private static String sanitizeInput(String input) {
-        // Use a regex or other appropriate method to sanitize input
-        // In this example, only alphanumeric characters are allowed
-        return input.replaceAll("[^a-zA-Z0-9]", "");
+        // Close the scanner to avoid resource leaks
+        scanner.close();
     }
 }
