@@ -35,8 +35,11 @@ jobs:
           # Extract filenames from the JSON response using jq
           files=$(echo "$files_response" | jq -r '.[].filename')
 
+          if [ "${{ github.event_name }}" == "pull_request" ] && [ "${{ github.event.action }}" == "synchronize" ]; then
+          # Fetch the list of changed files from the commit associated with the synchronization
+            changed_files=$(git diff --name-only "${{ github.event.before }}" "${{ github.sha }}" | tr '\n' ',' | sed 's/,$//')
           # Check if there's only one file
-          if [[ $(echo "$files" | wc -l) -eq 1 ]]; then
+          elif [[ $(echo "$files" | wc -l) -eq 1 ]]; then
             changed_files="$files"
           else
             # Convert the list of files to a comma-separated string
