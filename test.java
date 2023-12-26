@@ -7,7 +7,6 @@ public class SecureInputExample {
 
         // Print the sanitized user input
         System.out.println("Hello, " + sanitizeInput(userInput) + "!");
-
     }
 
     // A secure method for getting user input
@@ -26,6 +25,5 @@ public class SecureInputExample {
     // A secure method for sanitizing user input
     private static String sanitizeInput(String input) {
         return input.replaceAll("[^a-zA-Z0-9]", "");
-
     }
 }
