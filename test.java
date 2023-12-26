@@ -8,6 +8,12 @@ public class SecureInputExample {
         // Print the sanitized user input
         System.out.println("Hello, " + sanitizeInput(userInput) + "!");
     }
+    public static void main(String[] args) {
+        // Use a secure method for user input
+
+        // Print the sanitized user input
+        System.out.println("Hello, " + sanitizeInput(userInput) + "!");
+    }
 
     // A secure method for getting user input
     private static String getUserInput(String prompt) {
