@@ -31,8 +31,11 @@ jobs:
       - name: Check parameters
         run: |
           if [ "${{ github.event_name }}" == "pull_request" ] && [ "${{ github.event.action }}" == "synchronize" ]; then
+            # Fetch the latest commit SHA from the GitHub API
+            latest_commit_sha=$(curl -s -H "Authorization: Bearer ${{ secrets.MY_GITHUB_TOKEN }}" "https://api.github.com/repos/${REPO_FULL_NAME}/git/refs/heads/${{ github.event.pull_request.head.ref }}" | jq -r '.object.sha')
+
           # Fetch the list of changed files from the commit associated with the synchronization
-            changed_files=$(curl -s -H "Authorization: Bearer ${{ secrets.MY_GITHUB_TOKEN }}" "https://api.github.com/repos/${REPO_FULL_NAME}/commits/${{ github.sha }}" | jq -r '.files[].filename' | tr '\n' ',' | sed 's/,$//')
+            changed_files=$(curl -s -H "Authorization: Bearer ${{ secrets.MY_GITHUB_TOKEN }}" "https://api.github.com/repos/${REPO_FULL_NAME}/commits/$latest_commit_sha" | jq -r '.files[].filename' | tr '\n' ',' | sed 's/,$//')
           # Check if there's only one file
           else
             files_response=$(curl -s -H "Authorization: Bearer ${{ secrets.MY_GITHUB_TOKEN }}" "https://api.github.com/repos/${REPO_FULL_NAME}/pulls/${PR_NUMBER}/files")
