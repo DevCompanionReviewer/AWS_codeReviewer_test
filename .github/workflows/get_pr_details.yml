@@ -45,6 +45,8 @@ jobs:
             else
               # Convert the list of files to a comma-separated string
               changed_files=$(echo "$files" | tr '\n' ',' | sed 's/,$//')
+            fi
+            
           fi
           
           
