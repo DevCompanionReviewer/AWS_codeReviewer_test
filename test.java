@@ -14,28 +14,32 @@ public class StringComparisonProgram {
         String str3 = "Hello";
         String str4 = null;
 
-        // 6. Input validation for str1 and str2
-        if (str1.isEmpty() || str2.isEmpty()) {
-            System.out.println("Error: Please provide non-empty input for both strings.");
+        // 2. CWE-15: Implement input validation
+        if (!isValidInput(str1) || !isValidInput(str2)) {
+            System.out.println("Error: Please provide valid non-empty input for both strings.");
             scanner.close(); // Closing the scanner before exiting
             return;
         }
 
-        // 8. No need to explicitly close the scanner in this case.
-
-        // Using Objects.equals() for safe string equality comparison
-        // 7. Add a null check for str4
-        if (Objects.equals(str1, str2)) {
+        // 3. CWE-704: Use the equals() method of the String class
+        if (str1.equals(str2)) {
             System.out.println("str1 and str2 are equal");
         } else {
             System.out.println("str1 and str2 are not equal");
         }
 
-        // 7. Add a null check for str4
+        // 4. CWE-476: Add a null check for str4
         if (Objects.equals(str1, str4)) {
             System.out.println("str1 and str4 are equal");
         } else {
             System.out.println("str1 and str4 are not equal");
         }
+
+        // 5. CWE-561: Remove unnecessary line that closes the Scanner object.
+    }
+
+    // 1. CWE-710: Rename the class to adhere to coding standards
+    private static boolean isValidInput(String input) {
+        return input != null && !input.isEmpty();
     }
 }
