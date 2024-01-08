@@ -14,38 +14,44 @@ public class StringComparator {
         String str3 = "Hello";
         String str4 = null;
 
-        // 5. CWE-754: Input validation for empty or null strings
+        // 1. CWE-754: Input validation for empty or null strings
         if (!isValidInput(str1) || !isValidInput(str2)) {
             System.out.println("Error: Please provide valid non-empty input for both strings.");
             scanner.close(); // Closing the scanner before exiting
             return;
         }
 
-        // 3. CWE-704: Use Objects.equals() for null-safe string comparison
+        // 2. CWE-704: Use Objects.equals() for null-safe string comparison
         if (Objects.equals(str1, str4)) {
             System.out.println("str1 and str4 are equal");
         } else {
             System.out.println("str1 and str4 are not equal");
         }
 
-        // 2. CWE-252: Check the return value of the close() method
+        // 3. CWE-252: Check the return value of the close() method
         try {
-            scanner.close();
+            if (scanner != null) {
+                scanner.close();
+            }
         } catch (Exception e) {
             System.err.println("Error closing Scanner: " + e.getMessage());
         }
 
-        // 1. CWE-129: Validate array index
+        // 4. CWE-129: Validate array index
         if (args.length > 0) {
-            int index = Integer.parseInt(args[0]);
-            if (index >= 0 && index < args.length) {
-                System.out.println("Value at index " + index + ": " + args[index]);
-            } else {
-                System.out.println("Invalid index provided.");
+            try {
+                int index = Integer.parseInt(args[0]);
+                if (index >= 0 && index < args.length) {
+                    System.out.println("Value at index " + index + ": " + args[index]);
+                } else {
+                    System.out.println("Invalid index provided.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid index format provided.");
             }
         }
 
-        // 4. CWE-710: Rename the method to adhere to coding standards
+        // 5. CWE-710: Rename the method to adhere to coding standards
         // Renamed to isValidInput
     }
 
