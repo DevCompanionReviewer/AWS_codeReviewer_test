@@ -1,7 +1,7 @@
 import java.util.Objects;
 import java.util.Scanner;
 
-public class StringComparisonProgram {
+public class StringComparator {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -14,31 +14,31 @@ public class StringComparisonProgram {
         String str3 = "Hello";
         String str4 = null;
 
-        // 2. CWE-15: Implement input validation
+        // Implement input validation for str1 and str2
         if (!isValidInput(str1) || !isValidInput(str2)) {
             System.out.println("Error: Please provide valid non-empty input for both strings.");
             scanner.close(); // Closing the scanner before exiting
             return;
         }
 
-        // 3. CWE-704: Use the equals() method of the String class
-        if (str1.equals(str2)) {
-            System.out.println("str1 and str2 are equal");
+        // Consider using equalsIgnoreCase() for case-insensitive comparison
+        if (str1.equalsIgnoreCase(str2)) {
+            System.out.println("str1 and str2 are equal (case-insensitive)");
         } else {
-            System.out.println("str1 and str2 are not equal");
+            System.out.println("str1 and str2 are not equal (case-insensitive)");
         }
 
-        // 4. CWE-476: Add a null check for str4
+        // Add a null check for str4 before using Objects.equals()
         if (Objects.equals(str1, str4)) {
             System.out.println("str1 and str4 are equal");
         } else {
             System.out.println("str1 and str4 are not equal");
         }
 
-        // 5. CWE-561: Remove unnecessary line that closes the Scanner object.
+        // Remove the line that calls close() on the Scanner object.
     }
 
-    // 1. CWE-710: Rename the class to adhere to coding standards
+    // Rename the method to adhere to coding standards
     private static boolean isValidInput(String input) {
         return input != null && !input.isEmpty();
     }
