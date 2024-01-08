@@ -6,7 +6,6 @@ public class SecureInputExample {
     final String favoriteColor = request.getParameter("favoriteColor");
     try {
         // Noncompliant: user-given input is not sanitized before use.
-        statement.execute(sql);
     } catch (java.sql.SQLException e) {
         throw new RuntimeException(e);
     }
