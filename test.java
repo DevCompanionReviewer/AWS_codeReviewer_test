@@ -14,31 +14,42 @@ public class StringComparator {
         String str3 = "Hello";
         String str4 = null;
 
-        // Implement input validation for str1 and str2
+        // 5. CWE-754: Input validation for empty or null strings
         if (!isValidInput(str1) || !isValidInput(str2)) {
             System.out.println("Error: Please provide valid non-empty input for both strings.");
             scanner.close(); // Closing the scanner before exiting
             return;
         }
 
-        // Consider using equalsIgnoreCase() for case-insensitive comparison
-        if (str1.equalsIgnoreCase(str2)) {
-            System.out.println("str1 and str2 are equal (case-insensitive)");
-        } else {
-            System.out.println("str1 and str2 are not equal (case-insensitive)");
-        }
-
-        // Add a null check for str4 before using Objects.equals()
+        // 3. CWE-704: Use Objects.equals() for null-safe string comparison
         if (Objects.equals(str1, str4)) {
             System.out.println("str1 and str4 are equal");
         } else {
             System.out.println("str1 and str4 are not equal");
         }
 
-        // Remove the line that calls close() on the Scanner object.
+        // 2. CWE-252: Check the return value of the close() method
+        try {
+            scanner.close();
+        } catch (Exception e) {
+            System.err.println("Error closing Scanner: " + e.getMessage());
+        }
+
+        // 1. CWE-129: Validate array index
+        if (args.length > 0) {
+            int index = Integer.parseInt(args[0]);
+            if (index >= 0 && index < args.length) {
+                System.out.println("Value at index " + index + ": " + args[index]);
+            } else {
+                System.out.println("Invalid index provided.");
+            }
+        }
+
+        // 4. CWE-710: Rename the method to adhere to coding standards
+        // Renamed to isValidInput
     }
 
-    // Rename the method to adhere to coding standards
+    // Renamed to adhere to coding standards
     private static boolean isValidInput(String input) {
         return input != null && !input.isEmpty();
     }
