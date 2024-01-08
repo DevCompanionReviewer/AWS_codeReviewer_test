@@ -11,33 +11,32 @@ public class StringComparator {
         System.out.println("Enter another string: ");
         String str2 = scanner.nextLine();
 
-        String str3 = "Hello";
-        String str4 = null;
+        // 3. Close the scanner after obtaining input
+        scanner.close();
 
-        // 1. CWE-754: Input validation for empty or null strings
+        // 5. CWE-754: Input validation for empty or null strings
         if (!isValidInput(str1) || !isValidInput(str2)) {
             System.out.println("Error: Please provide valid non-empty input for both strings.");
-            scanner.close(); // Closing the scanner before exiting
             return;
         }
 
-        // 2. CWE-704: Use Objects.equals() for null-safe string comparison
-        if (Objects.equals(str1, str4)) {
-            System.out.println("str1 and str4 are equal");
+        // 7. CWE-704: Use Objects.equals() for null-safe string comparison
+        if (Objects.equals(str1, str2)) {
+            System.out.println("str1 and str2 are equal");
         } else {
-            System.out.println("str1 and str4 are not equal");
+            System.out.println("str1 and str2 are not equal");
         }
 
-        // 3. CWE-252: Check the return value of the close() method
-        try {
-            if (scanner != null) {
-                scanner.close();
-            }
-        } catch (Exception e) {
-            System.err.println("Error closing Scanner: " + e.getMessage());
+        // 8. CWE-252: Check the return value of the close() method
+        if (scanner != null) {
+            scanner.close();
         }
 
-        // 4. CWE-129: Validate array index
+        // 4. Remove unused variables
+        // String str3 = "Hello";
+        // String str4 = null;
+
+        // 9. CWE-129: Validate array index
         if (args.length > 0) {
             try {
                 int index = Integer.parseInt(args[0]);
@@ -51,11 +50,18 @@ public class StringComparator {
             }
         }
 
-        // 5. CWE-710: Rename the method to adhere to coding standards
+        // 6. CWE-710: Rename the method to adhere to coding standards
         // Renamed to isValidInput
     }
 
-    // Renamed to adhere to coding standards
+    // 2. Remove unused method
+    // private static String getUserInput() {
+    //     Scanner scanner = new Scanner(System.in);
+    //     String input = scanner.nextLine();
+    //     return input;
+    // }
+
+    // 9. CWE-710: Rename the method to adhere to coding standards
     private static boolean isValidInput(String input) {
         return input != null && !input.isEmpty();
     }
