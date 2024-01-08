@@ -1,11 +1,13 @@
 class Test{
-    static void stringEqualityCheckNoncompliant(String string1, String string2) {
-    // Noncompliant: the == operator doesn't compare the contents of the strings.
-    if(string1 == string2) {
-        System.out.println("The strings are equal.");
+    void outOfSyncNoncompliant(String deploymentId) {
+    String deploymentItem = null;
+    try {
+        // Noncompliant: the output value would not be updated if the producing method
+        // throws an exception, resulting the input and output values becoming out of sync.
+        deploymentItem = loadDeployment(deploymentId);
+    } catch (final Exception e) {
+        log.warn("Exception: ", e);
     }
+    doSomething(deploymentId, deploymentItem);
 }
-    public static void main(String[] args) {
-        stringEqualityCheckNoncompliant("bisd","bisd");
-    }
 }

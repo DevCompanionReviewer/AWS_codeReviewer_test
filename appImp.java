@@ -1,11 +1,12 @@
 class Test{
-    static void stringEqualityCheckNoncompliant(String string1, String string2) {
-    // Noncompliant: the == operator doesn't compare the contents of the strings.
-    if(string1 == string2) {
-        System.out.println("The strings are equal.");
+    public void createProcessNoncompliant(HttpServletRequest request) {
+    String favoriteColor = request.getParameter("favoriteColor");
+    // Noncompliant: user-supplied parameter is passed to an OS command and could be malicious.
+    ProcessBuilder pb = new ProcessBuilder("/usr/local/bin/program", "--color", favoriteColor);
+    try {
+        pb.start();
+    } catch (IOException e) {
+        System.out.println(e);
     }
 }
-    public static void main(String[] args) {
-        stringEqualityCheckNoncompliant("bisd","bisd");
-    }
 }
