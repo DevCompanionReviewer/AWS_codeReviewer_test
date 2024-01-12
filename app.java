@@ -6,6 +6,6 @@ class Test{
     }
 }
     public static void main(String[] args) {
-        stringEqualityCheckNoncompliant("bisd","bisd");
+        stringEqualityCheckNoncompliant("bisd","");
     }
 }
