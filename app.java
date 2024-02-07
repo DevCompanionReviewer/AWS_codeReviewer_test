@@ -5,6 +5,14 @@ class Test{
         System.out.println("The strings are equal.");
     }
 }
+    try {
+        doSomething();
+        throw new SomeException();
+    } catch (IndexOutOfBoundsException e) {
+        log.error(e.getMessage());
+    } catch (Exception e) {
+        log.error(e.getMessage());
+    }
     public static void main(String[] args) {
         stringEqualityCheckNoncompliant("bisd","bisd");
     }
