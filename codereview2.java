@@ -19,7 +19,7 @@ public class RuntimeIssuesDemo {
         Object obj = new Integer(10);
         String strObj = (String) obj;
 
-        
+        System.out.println(numbers[4]);
         List<String> names = new ArrayList<>();
         names.add("Alice");
         names.add("Bob");
