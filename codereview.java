@@ -1,34 +1,33 @@
 public class RuntimeIssuesDemo {
 
     public static void main(String[] args) {
-        // 1. ArrayIndexOutOfBoundsException
         int[] numbers = {1, 2, 3};
-        System.out.println(numbers[3]); // Accessing index 3, which is out of bounds
+        System.out.println(numbers[3]); 
 
-        // 2. NullPointerException
+        
         String str = null;
-        System.out.println(str.length()); // Attempting to invoke method on null reference
+        System.out.println(str.length()); 
 
-        // 3. ArithmeticException
-        int result = 10 / 0; // Division by zero
+        
+        int result = 10 / 0; 
 
-        // 4. NumberFormatException
+    
         String numStr = "abc";
-        int num = Integer.parseInt(numStr); // Parsing a non-numeric string
+        int num = Integer.parseInt(numStr);
 
-        // 5. ClassCastException
+        
         Object obj = new Integer(10);
-        String strObj = (String) obj; // Attempting to cast Integer object to String
+        String strObj = (String) obj;
 
-        // 6. ConcurrentModificationException
+        
         List<String> names = new ArrayList<>();
         names.add("Alice");
         names.add("Bob");
         for (String name : names) {
-            names.remove(name); // Modifying the list while iterating over it
+            names.remove(name);
         }
 
-        // 7. OutOfMemoryError
+        
         List<Integer> bigList = new ArrayList<>();
         while (true) {
             bigList.add(999999999);
