@@ -4,7 +4,7 @@ public class RuntimeIssuesDemo {
         int[] numbers = {1, 2, 3};
         System.out.println(numbers[3]); 
 
-        
+        System.out.println(numbers[4]);
         String str = null;
         System.out.println(str.length()); 
 
